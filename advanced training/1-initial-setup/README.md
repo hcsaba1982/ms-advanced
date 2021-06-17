@@ -586,13 +586,114 @@ spec:
         ports:
         - containerPort: 80
 EOF
-
 ```
 
 We will deploying other two applications too in order to showcase multitenancy, and those will be deployed on different namespaces (`app1`, and `app2`):
 
 ```
-kubectl create -f 1.1-apps-deployment.yaml 
+kubectl apply -f -<<EOF
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app1
+  labels:
+    tenant: tenant1
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app1-deployment
+  namespace: app1
+  labels:
+    app: app1
+    tenant: tenant1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app1
+      tenant: tenant1
+  template:
+    metadata:
+      labels:
+        app: app1
+        tenant: tenant1
+    spec:
+      containers:
+      - name: app1
+        image: praqma/network-multitool
+        env:
+        - name: HTTP_PORT
+          value: "1180"
+        - name: HTTPS_PORT
+          value: "11443"
+        ports:
+        - containerPort: 1180
+          name: http-port
+        - containerPort: 11443
+          name: https-port
+        resources:
+          requests:
+            cpu: "1m"
+            memory: "20Mi"
+          limits:
+            cpu: "10m"
+            memory: "20Mi"
+
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app2
+  labels:
+    tenant: tenant2
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app2-deployment
+  namespace: app2
+  labels:
+    app: app2
+    tenant: tenant2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app2
+      tenant: tenant2
+  template:
+    metadata:
+      labels:
+        app: app2
+        tenant: tenant2
+    spec:
+      containers:
+      - name: app2
+        image: praqma/network-multitool
+        env:
+        - name: HTTP_PORT
+          value: "1180"
+        - name: HTTPS_PORT
+          value: "11443"
+        ports:
+        - containerPort: 1180
+          name: http-port
+        - containerPort: 11443
+          name: https-port
+        resources:
+          requests:
+            cpu: "1m"
+            memory: "20Mi"
+          limits:
+            cpu: "10m"
+            memory: "20Mi"
+EOF
 ```
 
 ### 1.2.2. Check the status of the pods, wait until all are RUNNING status.
