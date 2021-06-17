@@ -737,7 +737,47 @@ app2-deployment-5fd465d59f-cq5bq   1/1     Running   0          4m48s
 The manifest file below will create the appropriate ingresses for the manager and kibana access:
 
 ```
-kubectl create -f 1.1.ingress.yaml 
+kubectl apply -f -<<EOF
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: yaobank
+  namespace: yaobank
+spec:
+  rules:
+  - host: "yaobank.template.lynx.tigera.ca"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: customer
+            port:
+              number: 80
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: manager
+  namespace: tigera-manager
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+spec:
+  rules:
+  - host: "manager.template.lynx.tigera.ca"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: tigera-manager
+            port:
+              number: 9443
+EOF
 ```
 
 The ingress is created with a generic hostname, but we must match the name used when the lab was deployed, so we will patch it with the command below (substitute the keywork LABNAME with the name of your lab):
