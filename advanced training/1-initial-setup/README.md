@@ -346,6 +346,18 @@ Check all components become available before proceding further (this can take fe
 ```
 watch kubectl get tigerastatus
 ```
+You should an output similar to the following.
+
+```                                                                                                                                     
+NAME                  AVAILABLE   PROGRESSING   DEGRADED   SINCE
+apiserver             True        False         False      4m54s
+calico                True        False         False      4m39s
+compliance            True        False         False      119s
+intrusion-detection   True        False         False      2m14s
+log-collector         True        False         False      114s
+log-storage           True        False         False      2m14s
+manager               True        False         False      89s
+```
 
 ### 1.1.5. Secure calico system components
 
