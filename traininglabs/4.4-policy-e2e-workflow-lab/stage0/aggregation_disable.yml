@@ -1,0 +1,8 @@
+apiVersion: projectcalico.org/v3
+kind: FelixConfiguration
+metadata:
+  name: default
+spec:
+  flowLogsFileAggregationKindForAllowed: 1
+  FlowLogsFlushInterval: 10s
+  CloudWatchLogsFlushInterval: 10s

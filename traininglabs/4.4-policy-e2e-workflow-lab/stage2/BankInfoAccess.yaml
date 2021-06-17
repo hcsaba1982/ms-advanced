@@ -1,0 +1,19 @@
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: security.allow-bankinfo-to-yaobankdatabase
+  namespace: yaobank
+spec:
+  tier: security
+  order: 200
+  selector: app == 'database'
+  ingress:
+    - action: Allow
+      source:
+        # select label that is on the storefront namespace
+        namespaceSelector: yaodb == 'allowed'
+        selector: app == 'bankinfo'
+    - action: Pass
+      source:
+        # select label that is on the storefront namespace
+        selector: fw-zone == 'restricted'

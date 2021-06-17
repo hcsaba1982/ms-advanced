@@ -1,0 +1,58 @@
+apiVersion: projectcalico.org/v3
+kind: Tier
+metadata:
+  name: whitelist
+spec:
+  order: 1600
+
+
+---
+
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: whitelist.allow-dns
+  namespace: ns1-open
+spec:
+  tier: whitelist
+  order: 1050
+  selector: ''
+  egress:
+    - action: Allow
+      protocol: UDP
+      source: {}
+      destination:
+        ports:
+          - '53'
+    - action: Allow
+      protocol: TCP
+      source: {}
+      destination:
+        ports:
+          - '53'
+  types:
+    - Egress
+
+
+---
+
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: whitelist.ns1-explicitdeny
+  namespace: ns1-open
+spec:
+  tier: whitelist
+  order: 5000
+  selector: ''
+  ingress:
+    - action: Deny
+      source: {}
+      destination: {}
+  egress:
+    - action: Deny
+      source: {}
+      destination: {}
+  types:
+    - Ingress
+    - Egress
