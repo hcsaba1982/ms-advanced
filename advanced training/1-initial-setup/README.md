@@ -710,6 +710,28 @@ summary-748b977d44-d6jsj    1/1     Running   0          77s   10.48.0.132   ip-
 summary-748b977d44-mch4d    1/1     Running   0          77s   10.48.0.3     ip-10-0-1-30   <none>           <none>
 ```
 
+```
+kubectl get pods -n app1
+```
+
+```
+kubectl get pods -n app1
+NAME                               READY   STATUS    RESTARTS   AGE
+app1-deployment-5bbfd76f9d-2zrdt   1/1     Running   0          3m5s
+app1-deployment-5bbfd76f9d-pxlx8   1/1     Running   0          3m5s
+```
+
+```
+kubectl get pods -n app2
+```
+
+```
+kubectl get pods -n app2
+NAME                               READY   STATUS    RESTARTS   AGE
+app2-deployment-5fd465d59f-7jzns   1/1     Running   0          4m48s
+app2-deployment-5fd465d59f-cq5bq   1/1     Running   0          4m48s
+```
+
 ## 1.3. Create the ingress services for the application
 
 The manifest file below will create the appropriate ingresses for the manager and kibana access:
