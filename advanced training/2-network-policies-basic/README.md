@@ -117,7 +117,80 @@ security.ingress-allow-pods-to-kubedns   2m7s
 Last step in this lab is to apply Calico network policies to yaobank namespace to secure yaobank services communication. 
 
 ```
-cat 2.3-yaobank-policies.yaml
+kubectl apply -f -<<EOF
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: application.ingress-allow-all-to-summary
+  namespace: yaobank
+spec:
+  tier: application
+  order: 101
+  selector: app == "customer"
+  types:
+    - Ingress  
+  ingress:
+  - action: Allow
+    protocol: TCP
+    destination:
+      ports:
+      - 80
+---
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: application.ingress-allow-customer-to-summary
+  namespace: yaobank
+spec:
+  tier: application
+  order: 102
+  selector: app == "summary"
+  types:
+    - Ingress  
+  ingress:
+  - action: Allow
+    protocol: TCP
+    source:
+      selector: app == "customer"
+    destination:
+      ports:
+      - 80
+---
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: application.ingress-allow-summary-to-database
+  namespace: yaobank
+spec:
+  tier: application
+  order: 103
+  selector: app == "database"
+  types:
+    - Ingress  
+  ingress:
+  - action: Allow
+    protocol: TCP
+    source:
+      selector: app == "summary"
+    destination:
+      ports:
+      - 2379
+---
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: application.ingress-yaobank-default-deny
+  namespace: yaobank
+spec:
+  tier: application
+  order: 104
+  selector: all()
+  types:
+    - Ingress  
+  ingress:
+  - action: Deny
+EOF
+
 ```
 
 Notice the order of policies which is only relevant in a sequential policy processing where you expect multiple match in the same tier for selected endpoints. It's not the case here however it's a good practice to follow a logical ordering process to simplify troubleshooting and analysis.
