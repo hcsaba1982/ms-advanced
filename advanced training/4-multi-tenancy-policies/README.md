@@ -3,7 +3,7 @@
 In this lab, you will define multi-tenancy rules for 2 tenants in your envionment.
 
 Steps: \
-4.1. Apply Calico policies to setup multi-tenancy \
+4.1. Apply Calico policies to set up multi-tenancy \
 4.2. Test
 
 ## 4.1. Apply Calico polcies to setup multi-tenancy
