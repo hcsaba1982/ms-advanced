@@ -100,7 +100,7 @@ spec:
 EOF
 ```
 
-Note the rule has been applied at the bottom of the application tier, after the yaobank rules.
+Note the rule has been applied at the top of the application tier, before the yaobank rules.
 
 Now, let's repeat the last test in our previous lab among services within the same namespace. Now the developer has allowed that comminication in the application tier, after any other higher hierarchy rule our security team has applied:
 
