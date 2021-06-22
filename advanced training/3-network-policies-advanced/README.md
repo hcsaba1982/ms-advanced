@@ -197,10 +197,6 @@ Be aware that Calico implements failsafe rules that override calico policies to 
 
 Refer to https://docs.tigera.io/security/protect-hosts#failsafe-rules
 
-```
-kubectl apply -f 3.3-host-endpoint-policies.yaml
-```
-
 Automatic HostEndpoints is disabled by default. Enable Automatic HostEndpoints by patching kubecontrollersconfiguration. 
 
 ```
