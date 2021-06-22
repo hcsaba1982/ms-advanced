@@ -1,10 +1,10 @@
 # 2. Network Policies Basics
 In this lab we will implement basic policies to secure yaobank app and setup policy hierarchy. 
 
-Steps: 
-2.1. Setup policy tiers
-2.2. Apply policies to allow dns 
-2.3. Apply policies to secure yaobank app
+Steps: \
+2.1. Setup policy tiers \
+2.2. Apply policies to allow dns \
+2.3. Apply policies to secure yaobank app \
 2.4. Test
 
 
