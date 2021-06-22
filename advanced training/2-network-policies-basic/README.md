@@ -18,14 +18,32 @@ Navigate to the policy board using the toolbar on the left and click on "Policie
 
 You will see only 1 tier (the `default` one). There will be another tier that you can make visible by clicking on the `Toggle Tiers` icon in the top right corner ![toggletier](img/1-toggle-tiers.png). These are the rules we applied for the essential Tigera components as part of the previous lab during the installation in step 1.1.5. 
 
-Now, examine, and then apply the manifest file as below, and notice three new tiers will show up (Remember to move to the right lab folder where the manifest is located):
+Examine and apply the manifest file as below and notice three new tiers will show up in the policy Dashboard.
 
 ```
-cat 2.1-tiers.yaml
-```
+kubectl apply -f -<<EOF
+apiVersion: projectcalico.org/v3
+kind: Tier
+metadata:
+  name: security
+spec:
+  order: 300
+---
+apiVersion: projectcalico.org/v3
+kind: Tier
+metadata:
+  name: platform
+spec:
+  order: 200
+---
+apiVersion: projectcalico.org/v3
+kind: Tier
+metadata:
+  name: application
+spec:
+  order: 400
+EOF
 
-```
-kubectl apply -f 2.1-tiers.yaml
 ```
 
 Notice the order which represents the order of processing of the tier. 
