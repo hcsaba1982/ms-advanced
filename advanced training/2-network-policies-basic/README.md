@@ -62,7 +62,7 @@ default        <nil>
 
 ## 2.2. Apply policies to allow dns
 
-Next we will apply policies to allow ingress and egress communication with kubedns. DNS is a vital component of the cluster and is often linked to mucroservices communication issues or slownes. This implement the failsafe rule for kube dns to avoid bricking it as we develop our policies.
+Next we will apply policies to allow ingress and egress communication with kubedns. DNS is a vital component of the cluster and is often linked to mucroservices communication issues or slownes. This will implement the failsafe rule for kube dns to avoid bricking it as we develop our policies.
 
 ```
 cat 2.2-ingressallowdns.yaml 
