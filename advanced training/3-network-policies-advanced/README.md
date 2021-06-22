@@ -225,7 +225,7 @@ EOF
 
 At this point you have locked down your cluster to the bare minimum communication. 
 
-Let's repeat the test from app1 to the other pod in the same namesapce, and to an external destination we did in step 2.4 in the previous lab. Now those two must fail, as any communication that is not explicitly allowed is denied:
+Let's repeat the test from app1 to the other pod in the same namesapce and to an external destination we did in step 2.4 in the previous lab. Now those two must fail as any communication that is not explicitly allowed is denied.
 
 Let's remember our source pod testing name:
 
@@ -251,7 +251,7 @@ kubectl exec -ti $APP1_POD -n app1 -- sh
 / # ping 10.48.0.212
 ```
 
-The ping must fail, as we are implementing a zero trust approach. The same will happen towards any pod in the namespace app2, or our external communication:
+The ping must fail as we implemented a zero trust approach. The same will happen towards any pod in the namespace app2 or our external communication.
 
 ```
 / # curl -I https://www.tigera.io
