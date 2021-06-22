@@ -63,15 +63,46 @@ default        <nil>
 ## 2.2. Apply policies to allow dns
 
 Next we will apply policies to allow ingress and egress communication with kubedns. DNS is a vital component of the cluster and is often linked to mucroservices communication issues or slownes. This will implement the failsafe rule for kube dns to avoid bricking it as we develop our policies.
+Notice the ingress and egress direction of flow with respect to selected endpoints, where ingress are incoming to the endpoint and egress are outgoing from the endpoint. Policy is applied at the Security tier level, which implements standard high-level enterprise controls. This avoid lower privileged users from modifying it and the policy order guarantees precedence over other policies in that tier. We are using NetworkPolicies to apply to the kube-system namespace specifically, which hosts kube dns.
 
 ```
-cat 2.2-ingressallowdns.yaml 
-```
+kubectl apply -f -<<EOF
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: security.ingress-allow-pods-to-kubedns
+  namespace: kube-system
+spec:
+  tier: security
+  order: 1
+  selector: k8s-app == "kube-dns"
+  types:
+    - Ingress
+    - Egress
+  ingress:
+  - action: Allow
+    destination:
+      ports:
+      - 53
+    protocol: UDP
+  - action: Allow
+    destination:
+      ports:
+      - 53
+    protocol: TCP
+  egress:
+  - action: Allow
+    destination:
+      ports:
+      - 53
+    protocol: UDP
+  - action: Allow
+    destination:
+      ports:
+      - 53
+    protocol: TCP
+EOF
 
-Notice the ingress and egress direction of flow with respect to selected endpoints, were ingress are incoming and egress are outgoing. Policy is applied at the Security tier level which implements standard high-level enterprise controls. This avoid lower privileged users from modifying it and the policy order guarantees precedence over other policies in that tier. We are using NetworkPolicies to apply to the kube-system namespace specifically, which hosts kube dns.
-
-```
-kubectl create -f 2.2-ingressallowdns.yaml 
 ```
 ```
 kubectl get networkpolicies.crd -n kube-system
