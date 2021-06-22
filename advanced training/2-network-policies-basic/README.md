@@ -18,7 +18,7 @@ Navigate to the policy board using the toolbar on the left and click on "Policie
 
 You will see only 1 tier (the `default` one). There will be another tier that you can make visible by clicking on the `Toggle Tiers` icon in the top right corner ![toggletier](img/1-toggle-tiers.png). These are the rules we applied for the essential Tigera components as part of the previous lab during the installation in step 1.1.5. 
 
-Examine and apply the manifest file as below and notice three new tiers will show up in the policy Dashboard.
+Examine and apply the manifest file as below and notice three new tiers will show up.
 
 ```
 kubectl apply -f -<<EOF
