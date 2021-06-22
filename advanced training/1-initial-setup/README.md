@@ -4,7 +4,6 @@ The first lab guides you through the process of installing Calico and deploying 
 
 Steps:\
 
-
 1.1. Install Calico Enterprise\
 1.2. Launch a sample application (Yaobank)\
 1.3. Configure the ingress, and service account\
