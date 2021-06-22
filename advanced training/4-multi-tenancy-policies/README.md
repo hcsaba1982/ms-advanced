@@ -73,7 +73,7 @@ It is important here to understand the policy processing behavior of Calico Ente
 - The default action for non-selected endpoint within a policy tier is Pass
 - Pass action happens at the end of a policy tier
 
-This means that for any selected endpoints in a policy tier, communication that is not explicitly permitted or passed is denied. This means that in the very simple policy we have implemented, we have effectively isolated tenant1 and tenant2. Communication for tenant1 for example outside the scope of its own tenant is denied since we're selecting tenant1 and only passing communication with its own tenant. Notice the default deny at the security tier, efectively enforcy organisation controls including multi-tenancy. Whatever is not passed or allowed is denied.
+This means that for any selected endpoints in a policy tier, communication that is not explicitly permitted or passed is denied. This means that in the very simple policy we have implemented, we have effectively isolated tenant1 and tenant2. Communication for tenant1 for example outside the scope of its own tenant is denied since we're selecting tenant1 and only passing communication with its own tenant. Notice the default deny at the security tier effectively enforces organisation controls including multi-tenancy. Whatever is not passed or allowed is denied.
 
 
 Take a moment and reflect on how it would have entailed to implement the same in a legacy infrastructure. The possibilities are simply unlimited!
