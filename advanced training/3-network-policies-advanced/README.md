@@ -209,7 +209,16 @@ kubectl patch kubecontrollersconfiguration default --patch='{"spec": {"controlle
 The last step is to configure default deny global rule. This established zero-trust policies where you are allowing the bare minimum for intra-cluster and external communication and denying everyting else.
 
 ```
-kubectl apply -f 3.4-globaldefaultdeny.yaml
+kubectl apply -f -<<EOF
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: default-deny
+spec:
+  types:
+  - Ingress
+  - Egress
+EOF
 ```
 
 ## 3.5- Test
