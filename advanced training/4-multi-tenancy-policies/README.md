@@ -102,15 +102,15 @@ EOF
 
 Note the rule has been applied at the bottom of the application tier, after the yaobank rules.
 
-Now, let's repeat the last test in our previous lab among services within the same namespace. Now teh developer has allowed that comminication in the application tier, after any other higher herarchy rule our security team has applied:
+Now, let's repeat the last test in our previous lab among services within the same namespace. Now the developer has allowed that comminication in the application tier, after any other higher hierarchy rule our security team has applied:
 
-Let's again use one of the pods in the app1 namespace as our source pod for testing purposes:
+Let's again use one of the pods in the app1 namespace as our source pod for testing purposes.
 
 ```
 APP1_POD=$(kubectl get pod -n app1 --no-headers -o name | head -1) && echo $APP1_POD
 ```
 
-And let's get the IP address of the other pod in the namespace app1:
+And let's get the IP address of the other pod in the namespace app1.
 
 ```
 kubectl get pod -n app1 -o wide | tail -1
@@ -119,7 +119,7 @@ kubectl get pod -n app1 -o wide | tail -1
 app1-deployment-5bbfd76f9d-mzjzd   1/1     Running   0          14m   10.48.0.212   ip-10-0-1-31.ca-central-1.compute.internal   <none>           <none>
 ```
 
-Now, let's access our testing pod, and try to ping to the other pod within the same namespace (substitute the IP address for the one retrieved in the previous step in your lab):
+Now, let's access our testing pod and try to ping to the other pod within the same namespace (substitute the IP address for the one retrieved in the previous step in your lab).
 
 ```
 kubectl exec -ti $APP1_POD -n app1 -- sh
