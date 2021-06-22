@@ -16,7 +16,7 @@ Navigate to the policy board using the toolbar on the left and click on "Policie
 
 ![policies](img/2-policies.png)
 
-You will see only 1 tier (the `default` one). There will be another tier that you can visible by clicking on the `Toggle Tiers` icon in the top right corner ![toggletier](img/1-toggle-tiers.png). These are the rules we applied for the essential Tigera components as part of the previous lab during the installation in step 1.1.5. 
+You will see only 1 tier (the `default` one). There will be another tier that you can make visible by clicking on the `Toggle Tiers` icon in the top right corner ![toggletier](img/1-toggle-tiers.png). These are the rules we applied for the essential Tigera components as part of the previous lab during the installation in step 1.1.5. 
 
 Now, examine, and then apply the manifest file as below, and notice three new tiers will show up (Remember to move to the right lab folder where the manifest is located):
 
