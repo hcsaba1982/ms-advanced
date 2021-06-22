@@ -11,14 +11,60 @@ Steps: \
 This lab, as brief as it is, is extremely important for understanding the role of Calico Enterprise Tiers and Pass action in establishing multi-tenancy. The design principle we are adopting here is one way of achieving fully micro-segmented environment. This is a common approach we have refined in engaging with customers to implement a standard design that can achieve the most complext requirements using a simple design.
 
 ```
-cat 4.1-multi-tenancy-policies.yaml
+kubectl apply -f -<<EOF
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: security.pass-tenant1
+spec:
+  tier: security
+  order: 101
+  selector: tenant == "tenant1"
+  types:
+  - Ingress
+  ingress:
+  - action: Allow
+    protocol: TCP
+    destination:
+      selector: ingress == "true"
+      ports:
+      - 80
+  - action: Pass
+    destination:
+      selector: tenant == "tenant1"
+---
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: security.pass-tenant2
+spec:
+  tier: security
+  order: 102
+  selector: tenant == "tenant2"
+  types:
+  - Ingress
+  ingress:
+  - action: Pass
+    destination:
+      selector: tenant == "tenant2"
+---
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: security.default-deny-security-tier
+spec:
+  tier: security
+  order: 999999
+  selector: all()
+  types:
+  - Ingress
+  ingress:
+  - action: Deny
+EOF
 ```
 
 Notice the use of the broad scope scd , which matches all pods belonging to those tenants. We could have likewise used namespaceSelector == "tenant1", which can be a better approach if you think about it from a RBAC perspective, where the platform team manages namespace provisioning and labeling, while developers manage deployments to their authorised namespaces and pod labels.
 
-```
-kubectl apply -f 4.1-multi-tenancy-policies.yaml
-```
 
 What this is actually doing is delegating (passing) controls for tenant1 to the application tier after implementing high-level security controls at the security tier level. High level security controls are typically implemented through enterprise security guidelines and compliance requirements for intra-cluster and external communication. At the application tier level, granular microsegmentation would be implmentated by developers to secure microservices. 
 
