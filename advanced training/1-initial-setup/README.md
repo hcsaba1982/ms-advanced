@@ -2,7 +2,7 @@
 
 The first lab guides you through the process of installing Calico and deploying a sample application. 
 
-Steps: \
+Steps:\
 
 1.1. Install Calico Enterprise\
 1.2. Launch a sample application (Yaobank)\
