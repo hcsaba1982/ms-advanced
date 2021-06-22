@@ -191,9 +191,9 @@ spec:
 EOF
 ```
 
-Notice the use of `selector (has(node-role.kubernetes.io/control-plane) || has(node-role.kubernetes.io/worker))` which matches to both worker, and master nodes. Policies are allowing essential cluster communication with the fabric services and kubernetes control plane.
+Notice the use of `selector (has(node-role.kubernetes.io/control-plane) || has(node-role.kubernetes.io/worker))`, which matches both worker and master nodes. Policies are allowing essential cluster communication with the fabric services and kubernetes control plane.
 
-Be aware that Calico implements failsafe rules that override calico policies to make you don't break vital services. In production, it recommended to maintain bare minimum fine-tuned failsafe rule for vital service, as a last resort, and implement granular policies for all other service.
+Be aware that Calico implements failsafe rules that override calico policies to make sure you don't break vital services. In production, it recommended to maintain bare minimum fine-tuned failsafe rule for vital service, as a last resort, and implement granular policies for all other service.
 
 Refer to https://docs.tigera.io/security/protect-hosts#failsafe-rules
 
