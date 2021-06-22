@@ -1,6 +1,6 @@
 # 3. Network policies - Part 2
 
-In this lab, we will develop our policies to include external communication, cluster hosts and default deny
+In this lab, we will develop our policies to include external communication, cluster hosts, and default deny.
 
 Steps: \
 3.1. Define globalnetworkset for external endpoints \
