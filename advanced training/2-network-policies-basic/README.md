@@ -115,6 +115,7 @@ security.ingress-allow-pods-to-kubedns   2m7s
 ## 2.3. Apply policies to secure yaobank app
 
 Last step in this lab is to apply Calico network policies to yaobank namespace to secure yaobank services communication. 
+Notice the order of policies which is only relevant in a sequential policy processing where you expect multiple match in the same tier for selected endpoints. It's not the case here however it's a good practice to follow a logical ordering process to simplify troubleshooting and analysis.
 
 ```
 kubectl apply -f -<<EOF
@@ -193,11 +194,6 @@ EOF
 
 ```
 
-Notice the order of policies which is only relevant in a sequential policy processing where you expect multiple match in the same tier for selected endpoints. It's not the case here however it's a good practice to follow a logical ordering process to simplify troubleshooting and analysis.
-
-```
-kubectl apply -f 2.3-yaobank-policies.yaml
-```
 ```
 kubectl get networkpolicies.crd -n yaobank
 ```
