@@ -210,7 +210,7 @@ application.ingress-yaobank-default-deny        2s
 Verify that yaobank app is still working properly. Modify the hostname to your own LABNAME.
 https://yaobank.LABNAME.lynx.tigera.ca/ 
 
-Now verify the endpoints used by yaobank database and the IP address of the pods in the app1 and app2 namespace.
+Now verify the endpoints used by yaobank database and the IP address of the pods in the app2 namespace.
 
 ```
 kubectl get endpoints database -n yaobank
