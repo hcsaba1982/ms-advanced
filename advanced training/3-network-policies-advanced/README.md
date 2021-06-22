@@ -93,14 +93,14 @@ spec:
 EOF
 ```
 
-Notice the use of the selector All() which according to the documentation allows for matching both workload and host endpoints
+Notice the use of the selector All(), which according to the documentation allows for matching both workload and host endpoints
 
 Refer to https://docs.tigera.io/reference/resources/globalnetworkpolicy
 
 
 ## 3.3- Implement host endpoint policies
 
-In this section we will implement granular ingress and egress host endpoint policies, effectively securing the cluster hosts. Hardening the cluster hosts is crucial for ensuring the security of your overall kubernetes environment.
+In this section, we will implement granular ingress and egress host endpoint policies effectively securing the cluster hosts. Hardening the cluster hosts is crucial for ensuring the security of your overall kubernetes environment.
 
 ```
 kubectl get node -o=custom-columns=NAME:.metadata.name,LABELS:.metadata.labels
