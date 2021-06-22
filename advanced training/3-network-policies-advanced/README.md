@@ -113,7 +113,82 @@ ip-10-0-1-31.ca-central-1.compute.internal   map[beta.kubernetes.io/arch:amd64 b
 ```
 
 ```
-cat 3.3-host-endpoint-policies.yaml
+kubectl apply -f -<<EOF
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: security.egress-allow-from-and-to-host
+spec:
+  tier: security
+  order: 3
+  selector: has(node-role.kubernetes.io/control-plane)||has(node-role.kubernetes.io/worker)
+  types:
+    - Egress
+    - Ingress
+  ingress:
+    - action: Allow
+      destination:
+        ports:
+          - 443
+      protocol: TCP
+    - action: Allow
+      destination:
+        ports:
+          - 68
+      protocol: UDP     
+    - action: Allow
+      protocol: ICMP      
+    - action: Allow
+      source:
+        selector: all()
+    - action: Allow
+      source:
+        selector: bastion == 'true'
+      destination:
+        ports:
+          - 22
+          - 6443
+      protocol: TCP
+  egress:
+    - action: Allow
+      destination:
+        selector: all()
+    - action: Allow
+      destination:
+        ports:
+          - 443
+    - action: Allow
+      protocol: ICMP    
+    - action: Allow
+      destination:
+        selector: loopback-cidr == 'true'
+    - action: Allow
+      destination:
+        selector: infra-trusted-ntp == 'true'
+        ports:
+          - 123
+      protocol: UDP
+    - action: Allow
+      destination:
+        ports:
+          - 53
+          - 67
+      protocol: TCP
+    - action: Allow
+      destination:
+        ports:
+          - 53
+      protocol: UDP
+    - action: Allow
+      destination:
+        selector: kube-api == 'true'
+        ports:
+          - 6443
+      protocol: TCP
+    - action: Allow
+      destination:
+        selector: external-ep == "trusted-repos"
+EOF
 ```
 
 Notice the use of `selector (has(node-role.kubernetes.io/control-plane) || has(node-role.kubernetes.io/worker))` which matches to both worker, and master nodes. Policies are allowing essential cluster communication with the fabric services and kubernetes control plane.
