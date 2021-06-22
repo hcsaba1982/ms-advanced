@@ -87,7 +87,7 @@ kubectl apply -f -<<EOF
 apiVersion: projectcalico.org/v3
 kind: GlobalNetworkPolicy
 metadata:
-  name: allow-tenant1-icmp
+  name: application.allow-tenant1-icmp
 spec:
   ingress:
   - action: Allow
