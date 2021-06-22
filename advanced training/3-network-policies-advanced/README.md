@@ -61,8 +61,6 @@ spec:
     - gcr.io
 EOF
 ```
-kubectl apply -f 3.1-globalnetworkset.yaml
-```
 
 ![networsets](img/3-networksets.png)
 
