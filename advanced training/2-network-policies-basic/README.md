@@ -62,7 +62,7 @@ default        <nil>
 
 ## 2.2. Apply policies to allow dns
 
-Next we will apply policies to allow ingress and egress communication with kubedns. DNS is a vital component of the cluster and is often linked to mucroservices communication issues or slownes. This will implement the failsafe rule for kube dns to avoid bricking it as we develop our policies.
+Next we will apply policies to allow ingress and egress communication with kubedns. DNS is a vital component of the cluster and is often linked to microservices communication issues or slownes. This will implement the failsafe rule for kube dns to avoid bricking it as we develop our policies.
 Notice the ingress and egress direction of flow with respect to selected endpoints, where ingress are incoming to the endpoint and egress are outgoing from the endpoint. Policy is applied at the Security tier level, which implements standard high-level enterprise controls. This avoid lower privileged users from modifying it and the policy order guarantees precedence over other policies in that tier. We are using NetworkPolicies to apply to the kube-system namespace specifically, which hosts kube dns.
 
 ```
