@@ -72,7 +72,7 @@ After applying the manifest, you will notice 4 new globalnetworksets:
 
 ## 3.2. Implement global egress policies for the cluster
 
-Next we will implement a simple policy that allows egress communication among cluster endpoints, includin workload endpoints and host endpoints. This follows a design principle that allows all intra-cluster communication since we will be implementing granular ingress microsegmentation policies. This simplifies the policy implementation while providing comparable security posture. However, for external communication, we will be implementing in later exercises granular ingress and ingress policies to workload and host endpoints. 
+Next we will implement a simple policy that allows egress communication among cluster endpoints, including workload endpoints and host endpoints. This follows a design principle that allows all intra-cluster communication since we will be implementing granular ingress microsegmentation policies. This simplifies the policy implementation while providing comparable security posture. However, for external communication, we will be implementing in later exercises granular egress and ingress policies to workload and host endpoints. 
 
 ```
 cat 3.2-egress-policies.yaml
