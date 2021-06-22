@@ -83,7 +83,21 @@ Take a moment and reflect on how it would have entailed to implement the same in
 General security policies for the tenants will be controlled in the security tier, while anything not implicitily allowed will be passed to the next tier giving control to the team in charge of the application to apply more granular rules for microsegmentation. Now, as a developer, let's implement a simple policy to allow the ICMP communication within the microservices in app1 (we will see in the next lab how RBAC can segregate access, so a developer will be able to only create policies in his/her namespace).
 
 ```
-kubectl create -f 4.1-app1-test.yaml
+kubectl apply -f -<<EOF
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: allow-tenant1-icmp
+spec:
+  ingress:
+  - action: Allow
+    protocol: ICMP
+  order: 10
+  selector: tenant == "tenant1"
+  tier: application
+  types:
+  - Ingress
+EOF
 ```
 
 Note the rule has been applied at the bottom of the application tier, after the yaobank rules.
