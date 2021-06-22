@@ -10,7 +10,7 @@ Steps:
 
 ## 2.1. Setup policy tiers
 
-The first step is to setup policy tiers which represent the policy hierarchy in your cluster. Policy tiers are containers that allow different personas in your organisation the definition of based on their role and governed by RBAC. in this example we are defining 3 policy tiers (Platform, Security, Application), which are typical personas involved in policy development.
+The first step is to setup policy tiers which represent the policy hierarchy in your cluster. Policy tiers are containers that allow different personas in your organisation define policies into groups of different priorities based on their roles and governed by RBAC. in this example we are defining 3 policy tiers (Platform, Security, Application), which are typical personas involved in policy development.
 
 Navigate to the policy board using the toolbar on the left, and clicking in "Policies":
 
