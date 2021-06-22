@@ -11,14 +11,55 @@ Steps: \
 
 ## 3.1. Define globalnetworkset for external endpoints
 
-In this lab we will statart by defining Calico globalnetworkset for extternal endpoint. This allows for matching sources and destinations foreigh to the cluster in network policies in a cloud-native way. 
+In this lab, we will start by defining Calico globalnetworkset for external endpoint. This allows for matching sources and destinations foreigh to the cluster in network policies in a cloud-native way. 
 
 ```
-cat 3.1-globalnetworkset.yaml
-```
-
-Let's implement those:
-
+kubectl apply -f -<<EOF
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkSet
+metadata:
+  name: loopback-cidr
+  labels:
+    loopback-cidr: 'true'
+spec:
+  nets:
+    - 127.0.0.0/8
+---
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkSet
+metadata:
+  name: bastion
+  labels:
+    bastion: 'true'
+    type: 'bastion'
+spec:
+  nets:
+    - 10.0.1.10/32
+---
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkSet
+metadata:
+  name: kube-api
+  labels:
+    kube-api: 'true'
+spec:
+  allowedEgressDomains:
+    - '*.lynx.tigera.ca'
+---
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkSet
+metadata:
+  name: trusted-repos
+  labels:
+    external-ep: trusted-repos
+spec:
+  allowedEgressDomains:
+    - '*.docker.com'
+    - '*.quay.io'
+    - '*.ubuntu.com'
+    - '*.docker.io'
+    - gcr.io
+EOF
 ```
 kubectl apply -f 3.1-globalnetworkset.yaml
 ```
