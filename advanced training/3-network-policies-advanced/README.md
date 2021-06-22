@@ -157,6 +157,7 @@ spec:
       destination:
         ports:
           - 443
+      protocol: TCP
     - action: Allow
       protocol: ICMP    
     - action: Allow
