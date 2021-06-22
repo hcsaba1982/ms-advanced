@@ -20,7 +20,7 @@ Notice the use of the broad scope scd , which matches all pods belonging to thos
 kubectl apply -f 4.1-multi-tenancy-policies.yaml
 ```
 
-What this is actually doing is delegating (passing) controls for tenant1 to the application tier after implementing high-level security controls at the security tier level, typically enterprise security guidelines and compliance requirements for intra-cluster and external communication. At the application tier level, granular microsegmentation would implmentated by developers to securre micro-services. 
+What this is actually doing is delegating (passing) controls for tenant1 to the application tier after implementing high-level security controls at the security tier level. High level security controls are typically implemented through enterprise security guidelines and compliance requirements for intra-cluster and external communication. At the application tier level, granular microsegmentation would be implmentated by developers to secure microservices. 
 
 It is important here to understand the policy processing behavior of Calico Enterprise:
 - The default action for selected endpoint within a policy tier is Deny
