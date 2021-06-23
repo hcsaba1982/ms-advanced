@@ -4,7 +4,7 @@ In Calico Enterprise, global network policy and network policy resources are ass
 
 - Create service accounts 
 - Implement RBAC controls 
-- Verify access to the right polcies resources for each account
+- Verify access to the right policy resources for each account
 
 ## 5.1. Create service accounts
 
