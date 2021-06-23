@@ -357,11 +357,11 @@ kubectl get secret $(kubectl get serviceaccount secuser -o jsonpath='{range .sec
 kubectl get secret $(kubectl get serviceaccount devuser -o jsonpath='{range .secrets[*]}{.name}{"\n"}{end}' | grep token) -o go-template='{{.data.token | base64decode}}' && echo
 ```
 
-You can see the security user can edit and create policies in the Security Tier as indicated in the image below. He can see any global policy too, and configure them in that Tier.
+You can see the security user can edit and create policies in the Security Tier as indicated in the image below. He can see any global policy too and configure them in that tier.
 
 ![rbacsec](img/rbacsec.png)
 
-By other hand, the devuser can only edit the application tier rules in its own namespace, non-kubernetes policies in the default tier, and he cannot create/edit or see global policies.
+On other hand, the devuser can only edit the application tier rules in its own namespace, non-kubernetes policies in the default tier, and he cannot create/edit or see global policies.
 
 ![rbacdev](img/rbacdev.png)
 
