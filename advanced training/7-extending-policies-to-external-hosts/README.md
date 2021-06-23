@@ -86,7 +86,7 @@ If you execute `sudo systemctl status calico` in the bastion host, the service s
 
 ## 7.2. Emulate a running service
 
-We will use netcat to listen in a port for demonstration purposes, simulating an application listening on port 7777. For that, open a second tab to the lab (`http://<LABNAME>.lynx.tigera.ca`), and once logged in, execute the command:
+We will use netcat to simulate an application listening on port 7777 on the bastion node. Open a second tab to the lab (`http://<LABNAME>.lynx.tigera.ca`), and once logged in, execute the following command.
 
 ```
 netcat -nvlkp 7777
