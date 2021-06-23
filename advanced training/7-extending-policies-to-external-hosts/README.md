@@ -161,19 +161,11 @@ spec:
 EOF
 ```
 
-Apply the policy
+
+Apply the HostEndpoint. Note that manual HostEndpoints are default deny. Anything that is not allowed by failsafes or GlobalNetworkPolicies will be denied.
 
 ```
-kubectl apply -f 7.1-globalnetworkpolicy.yaml
-```
-
-Check the HostEndpoint:
-
-```
-cat 7.1-hostendpoint.yaml
-```
-```
----
+kubectl apply -f -<<EOF
 apiVersion: projectcalico.org/v3
 kind: HostEndpoint
 metadata:
@@ -185,12 +177,7 @@ spec:
   node: bastion
   expectedIPs:
   - 10.0.1.10
-```
-
-Apply the HostEndpoint. Note that manual HostEndpoints are default deny. Anything that is not allowed by failsafes or GlobalNetworkPolicies will be denied.
-
-```
-kubectl apply -f 7.1-hostendpoint.yaml
+EOF
 ```
 
 Test that traffic is being allowed only from a worker node
