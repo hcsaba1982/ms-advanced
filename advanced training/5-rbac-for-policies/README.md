@@ -13,7 +13,21 @@ We will create two service accounts. One will belong to our security administrat
 The second account belongs to our developer. He must be able to access the application, or default tiers, but not able to see or modify any other policy higher in the hierarchy. He will not able to see or edit global policies, as the case of our `default-deny` policy applied in the default tier. Let's create our two service accounts.
 
 ```
-kubectl create -f 5.1-users.yaml
+kubectl apply -f -<<EOF
+# security team
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: secuser
+  namespace: default
+---
+# developer team
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: devuser
+  namespace: default
+EOF
 ```
 ```
 serviceaccount/secuser created
