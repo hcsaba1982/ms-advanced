@@ -251,7 +251,99 @@ As you can see, both accounts are associated with the roles "ui-traffic-stats" a
 And now, lets restrict even more the devuser to the app1 namespace by means that a role and binding:
 
 ```
-kubectl create -f 5.1-dev-ns-role.yaml
+kubectl apply -f -<<EOF
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: app1-user-full-access
+  namespace: app1
+rules:
+- apiGroups: ["", "extensions", "apps"]
+  resources: ["*"]
+  verbs: ["*"]
+- apiGroups: ["batch"]
+  resources:
+  - jobs
+  - cronjobs
+  verbs: ["*"]
+  rules:
+- apiGroups: ["projectcalico.org"]
+  resources: ["tiers"]
+  resourceNames: ["default"]
+  verbs: ["get"]
+- apiGroups: ["projectcalico.org"]
+  resources: ["tier.networkpolicies"]
+  resourceNames: ["default.*","application.*"]
+  verbs: ["create",]
+# allow CRUD operations against staged policies in default and application tier
+- apiGroups: ["projectcalico.org"]
+  resources: ["tier.networkpolicies","tier.stagedkubernetesnetworkpolicies","stagedkubernetesnetworkpolicies"]
+  resourceNames: ["default.*","application.*"]
+  verbs: ["get","list","create","update","patch","delete"]
+
+---
+
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: app1-user-view
+  namespace: app1
+subjects:
+- kind: ServiceAccount
+  name: devuser
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: app1-user-full-access
+
+---
+
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: app1-user-partial-access
+  namespace: default
+rules:
+- apiGroups: ["", "extensions", "apps"]
+  resources: ["*"]
+  verbs: ["*"]
+- apiGroups: ["batch"]
+  resources:
+  - jobs
+  - cronjobs
+  verbs: ["*"]
+  rules:
+- apiGroups: ["projectcalico.org"]
+  resources: ["tiers"]
+  resourceNames: ["default"]
+  verbs: ["get"]
+- apiGroups: ["projectcalico.org"]
+  resources: ["tier.networkpolicies"]
+  resourceNames: ["default.*","application.*"]
+  verbs: ["create",]
+# allow CRUD operations against staged policies in default tier
+- apiGroups: ["projectcalico.org"]
+  resources: ["tier.networkpolicies","tier.stagedkubernetesnetworkpolicies","stagedkubernetesnetworkpolicies"]
+  resourceNames: ["default.*","application.*"]
+  verbs: ["get","list","create","update","patch","delete"]
+
+---
+
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: default-ns-user-view
+  namespace: default
+subjects:
+- kind: ServiceAccount
+  name: devuser
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: app1-user-partial-access
+EOF
 ```
 
 ## 5.4. Verification
