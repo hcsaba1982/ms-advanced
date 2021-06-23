@@ -36,13 +36,211 @@ serviceaccount/devuser created
 
 ## 5.2. Create the cluster wide roles
 
-Now let's create the needed Cluster roles, and bindings, so we assign the right access to each account. Please take a time to check the two files for them:
+Now let's create the needed cluster roles and bindings to assign the right access to each account. 
 
 ```
-cat 5.1-security.yaml
+kubectl apply -f -<<EOF
+# allows access to UI components to show flow logs, audit logs, stats
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ui-traffic-stats
+rules:
+- apiGroups: [""]
+  resources: ["services/proxy"]
+  resourceNames: ["https:tigera-api:8080", "calico-node-prometheus:9090"]
+  verbs: ["get","create"]
+# Access to flow logs, audit logs, and statistics
+- apiGroups: ["lma.tigera.io"]
+  resources: ["*"]
+  # access to specific resources
+  resourceNames: ["flows", "audit*", "events", "dns"]
+  verbs: ["get"]
+- apiGroups: ["projectcalico.org"]
+  resources: ["authenticationreviews","authorizationreviews"]
+  verbs: ["create"]
+---
+
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ui-policy-board-reader
+rules:
+- apiGroups: ["networking.k8s.io","extensions",""]
+  resources: ["networkpolicies","namespaces"]
+  verbs: ["get","watch","list"]
+- apiGroups: ["projectcalico.org"]
+  resources: ["tiers","tier.networkpolicies","tier.globalnetworkpolicies"]
+  verbs: ["get","watch","list"]
+# access to see policy board
+- apiGroups: ["projectcalico.org"]
+  resources: ["clusterinformations"]
+  verbs: ["get","list"]
+---
+
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: security-tier-policy-cruder
+rules:
+# To access Calico policy in a tier, the user requires get access to that tier.
+- apiGroups: ["projectcalico.org"]
+  resources: ["tiers"]
+  resourceNames: ["security"]
+  verbs: ["get"]
+# This allows configuration of all types of NetworkPolicy resources in the security tier as well as NetworkSet resources.
+- apiGroups: ["projectcalico.org"]
+  resources: ["tier.networkpolicies","tier.globalnetworkpolicies","tier.stagedkubernetesnetworkpolicies","stagedkubernetesnetworkpolicies","globalnetworksets","networksets"]
+  resourceNames: ["security.*"]
+  verbs: ["*"]
+- apiGroups: ["projectcalico.org"]
+  resources: ["networksets","globalnetworksets"]
+  verbs: ["get","watch","list"]
+- apiGroups: ["projectcalico.org"]
+  resources: ["globalalerts","globalalerts/status","globalalerttemplates"]
+  verbs: ["get","watch","list"]
+---
+
+##############################################
+# allow full access to security tier
+##############################################
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: security-full-access
+subjects:
+- kind: ServiceAccount
+  name: secuser
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: security-tier-policy-cruder
+  apiGroup: rbac.authorization.k8s.io
+---
+
+##############################################
+# grant access to APIs in Enterprise Manager UI
+##############################################
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: tmui-traffic-stats-access
+subjects:
+- kind: ServiceAccount
+  name: secuser
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: ui-traffic-stats
+  apiGroup: rbac.authorization.k8s.io
+---
+
+##############################################
+# grant access to Enterpris Manager policy board view
+##############################################
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: tmui-policy-board-access
+subjects:
+- kind: ServiceAccount
+  name: secuser
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: ui-policy-board-reader
+  apiGroup: rbac.authorization.k8s.io
+EOF
 ```
 ```
-cat 5.1-developer.yaml
+kubectl apply -f -<<EOF
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: tier-reader-dev
+rules:
+- apiGroups: ["projectcalico.org"]
+  resources: ["tiers"]
+  resourceNames: ["default"]
+  verbs: ["get"]
+# only allow to view global and namespaced policies in default tier
+- apiGroups: ["projectcalico.org"]
+  resources: ["tier.networkpolicies"]
+  resourceNames: ["default.*"]
+  verbs: ["get","list"]
+  
+---
+
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ui-policy-board-reader-dev
+rules:
+- apiGroups: ["networking.k8s.io","extensions",""]
+  resources: ["networkpolicies","namespaces"]
+  verbs: ["get","watch","list"]
+- apiGroups: ["projectcalico.org"]
+  resources: ["tiers","tier.networkpolicies"]
+  verbs: ["get","watch","list"]
+# access to see policy board
+- apiGroups: ["projectcalico.org"]
+  resources: ["clusterinformations"]
+  verbs: ["get","list"]
+
+---
+
+##############################################
+# allow read access to default tier
+##############################################
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: tier-reader-dev
+subjects:
+- kind: ServiceAccount
+  name: devuser
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: tier-reader-dev
+  apiGroup: rbac.authorization.k8s.io
+  
+---
+
+##############################################
+# grant access to APIs in Enterprise Manager UI
+##############################################
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: tmui-traffic-stats-access-dev
+subjects:
+- kind: ServiceAccount
+  name: devuser
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: ui-traffic-stats
+  apiGroup: rbac.authorization.k8s.io
+  
+---
+
+##############################################
+# grant access to Enterpris Manager policy board view
+##############################################
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: tmui-policy-board-access-dev
+subjects:
+- kind: ServiceAccount
+  name: devuser
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: ui-policy-board-reader-dev
+  apiGroup: rbac.authorization.k8s.io
+EOF
 ```
 
 As you can see, both accounts are associated with the roles "ui-traffic-stats", and "ui-policy-board-reader", however only the security person (`secuser`) have full access to the security tier through the role "security-tier-policy-cruder".
