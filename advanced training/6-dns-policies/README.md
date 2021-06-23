@@ -15,7 +15,7 @@ DNS policies allow for securing egress communication to trusted destinations bas
 
 Note that Calico allows for the tweaking of DNS ttl values to account for race condition at ttl expiry (removing ipset ipaddress at ttl expiry before app resend dns request to refresh ttl). Enhancements to DNS policies will allow the automatic population of fqdn ip addresses.
 
-In lab 3, we deployed a series of network sets as destinations for external communication. One of those sets (`trusted-repos`) uses fqdns instead of IP addresses, and make use of dns policies. Let's inspect it:
+In lab 3, we deployed a series of GlobalNetworkSets as destinations for external communication. One of those sets (`trusted-repos`) uses fqdns instead of IP addresses and makes use of dns policies. Let's inspect it.
 
 ```
 calicoctl get globalnetworkset trusted-repos -o yaml
