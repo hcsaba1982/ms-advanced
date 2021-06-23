@@ -104,12 +104,12 @@ nc -zv 10.0.1.10 7777
 Connection to 10.0.1.10 7777 port [tcp/*] succeeded!
 ```
 
-Exit the master node but keep running the service in your second tab, as we will verify the connectivity again after implementing our Host Endpoint configuration.
+Exit the master node, but keep running the service in your second tab as we will verify the connectivity again after implementing our Host Endpoint configuration.
 
 ## 7.3. Enable Automatic HostEndpoints for your kubernetes cluster nodes
 
 Enable Automatic HostEndpoints by patching kubecontrollersconfiguration. 
-We will use an the automatic HostEndpoints from workers as the source in our GlobalNetworkPolicy that will protect the bastion node.
+We will use the automatic HostEndpoints from workers as the source in our GlobalNetworkPolicy that will protect the bastion node.
 
 ```
 kubectl patch kubecontrollersconfiguration default --patch='{"spec": {"controllers": {"node": {"hostEndpoint": {"autoCreate": "Enabled"}}}}}'
