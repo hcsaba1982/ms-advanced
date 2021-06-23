@@ -8,9 +8,9 @@ In Calico Enterprise, global network policy and network policy resources are ass
 
 ## 5.1. Create service accounts
 
-We will create two service accounts. One will belong to our security administrator, who will be in charge of implementing Network security Polcies with a broader scope, and which affect to the whole environment. Those will be created in our security tier.
+We will create two service accounts. One will belong to our security administrator, who will be in charge of implementing network security policies with a broader scope and which affect the whole environment. Those will be created in our security tier.
 
-The second account belongs to our developer. He must be able to access the application, or default tiers, but not able to see or modify any other policy higher in the hierarchy. They will not able to see or edit global polciies, as the case of our `default-deny` policy applied in the default tier. Let's create our two service accounts:
+The second account belongs to our developer. He must be able to access the application, or default tiers, but not able to see or modify any other policy higher in the hierarchy. He will not able to see or edit global policies, as the case of our `default-deny` policy applied in the default tier. Let's create our two service accounts.
 
 ```
 kubectl create -f 5.1-users.yaml
