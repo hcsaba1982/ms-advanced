@@ -243,16 +243,8 @@ roleRef:
 EOF
 ```
 
-As you can see, both accounts are associated with the roles "ui-traffic-stats", and "ui-policy-board-reader", however only the security person (`secuser`) have full access to the security tier through the role "security-tier-policy-cruder".
+As you can see, both accounts are associated with the roles "ui-traffic-stats" and "ui-policy-board-reader". However, only the security person (`secuser`) have full access to the security tier through the role "security-tier-policy-cruder". The other service account (`devsuer`) can only work in the application and default tiers. 
 
-Our other person (`devsuer`) can only work in the application and default tiers. Let's apply those cluster wide roles and bindings:
-
-```
-kubectl apply -f 5.1-security.yaml
-```
-```
-kubectl create -f 5.1-developer.yaml
-```
 
 ## 5.3. Restrict the developer user to a namespace
 
