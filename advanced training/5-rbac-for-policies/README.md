@@ -256,7 +256,7 @@ kubectl create -f 5.1-dev-ns-role.yaml
 
 ## 5.4. Verification
 
-To check, Retrieve the tokens for both accounts as indicated below, and open two new Incognito windows and browse to the manager as in `https://manager.<LABNAME>.lynx.tigera.ca`, then access each window with the respective user token.
+To check, retrieve the tokens for both accounts as indicated below and open two new Incognito windows and browse to the Tigera Manager UI in `https://manager.<LABNAME>.lynx.tigera.ca`. Then access each window with the respective user token.
 
 ```
 kubectl get secret $(kubectl get serviceaccount secuser -o jsonpath='{range .secrets[*]}{.name}{"\n"}{end}' | grep token) -o go-template='{{.data.token | base64decode}}' && echo
