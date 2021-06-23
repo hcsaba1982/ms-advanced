@@ -117,10 +117,7 @@ kubectl patch kubecontrollersconfiguration default --patch='{"spec": {"controlle
 
 ## 7.4. Configure a GlobalNetworkPolicy to allow traffic to the webserver
 
-Check the globalnetworkpolicy.yaml from lab_manifests /
-Notice how we select the bastion by label type == 'bastion' or bastion = 'true'
-This correspond to the HostEndpoint we'll apply in the next step.
-Also notice how we allow traffic to port 7777 only from kubernetes nodes that has the label node-role.kubernetes.io/worker, and allow traffic to port 80 from any source (this is needed to avoid lock up ourselves, as we access the lab through ttyd on that port).
+Check the following globalnetworkpolicy. Notice how we select the bastion node by label type == 'bastion' or bastion = 'true'. This corresponds to the HostEndpoint we'll apply in the next step. Also notice how we allow traffic to port 7777 only from kubernetes nodes that have the label node-role.kubernetes.io/worker and allow traffic to port 80 from any source (this is needed to avoid lock up ourselves, as we access the lab through ttyd on that port).
 
 ```
 kubectl get node -o=custom-columns=NAME:.metadata.name,LABELS:.metadata.labels
