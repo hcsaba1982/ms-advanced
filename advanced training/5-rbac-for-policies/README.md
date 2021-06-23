@@ -365,4 +365,4 @@ On other hand, the devuser can only edit the application tier rules in its own n
 
 ![rbacdev](img/rbacdev.png)
 
-If you recall the previous lab, we implemented tenant rules in our security Tier, so we could delegate more specific rules to the owners of the namespace, with RBAC we made specific access to that namespace rules to certain accounts.
+If you recall the previous lab, we implemented tenant rules in our security Tier so we could delegate more specific control to the owners of the namespace. Using Kubernetes RBAC, we implemented the principle of least privilege by giving just enough access to each tenant to perform their required tasks.
