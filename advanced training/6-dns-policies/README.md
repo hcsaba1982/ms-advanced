@@ -2,11 +2,11 @@
 
 In this lab, we will implement dns policies to match fqdn in policies.
 
-Steps:
-5.1. Define globalnetworkset for trusted repos
-5.2. Implement dns globalnetworkpolicies 
-5.3. Define networkset for app1 trusted domains
-5.4. Implement app1 ds networkpolicies
+Steps: \
+5.1. Define globalnetworkset for trusted repos \
+5.2. Implement dns globalnetworkpolicies \
+5.3. Define networkset for app1 trusted domains \
+5.4. Implement app1 ds networkpolicies \
 5.5. Test
 
 ## 6.1. Globalnetworkset for trusted repos
