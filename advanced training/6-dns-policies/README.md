@@ -3,13 +3,12 @@
 In this lab, we will implement dns policies to match fqdn in policies.
 
 Steps: \
-5.1. Define globalnetworkset for trusted repos \
-5.2. Implement dns globalnetworkpolicies \
-5.3. Define networkset for app1 trusted domains \
-5.4. Implement app1 ds networkpolicies \
-5.5. Test
+6.1. Define GlobalNetworkSet for trusted repos \
+6.2. Define NetworkSet for app1 trusted domains \
+6.3. Implement app1 dns networkpolicies \
+6.4. Test
 
-## 6.1. Globalnetworkset for trusted repos
+## 6.1. GlobalNetworkSet for trusted repos
 
 DNS policies allow for securing egress communication to trusted destinations based on fqdn. Calico implements DNS policies by listening to DNS replies for domains defined in globalnetworkset (gns) and networkset (ns) (and used in policies), and populates ip address information in ipset at the kernel level that is referenced in iptables. It is recommended to define all external endpoints (fqdn or ip addresses) in gns and ns, depending on the scope (global vs namespace). This is a key recommendation for optimizing policy processing and for scalability. Avoid overlap in gn and ns ip addresses. Avoid using individual ip addresses in policies.
 
@@ -21,7 +20,7 @@ In lab 3, we deployed a series of GlobalNetworkSets as destinations for external
 calicoctl get globalnetworkset trusted-repos -o yaml
 ```
 
-## 6.2. Define networkset for app1 trusted domains
+## 6.2. Define NetworkSet for app1 trusted domains
 
 Now we will move to implementing dns policies specific to app1. The first step is to define a networkset including app1 trusted domains.
 #### Note the namespace metadata config defining the scope of the networkset to app1 namespace.
