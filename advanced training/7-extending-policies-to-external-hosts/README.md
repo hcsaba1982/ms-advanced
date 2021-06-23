@@ -126,14 +126,19 @@ Also notice how we allow traffic to port 7777 only from kubernetes nodes that ha
 kubectl get node -o=custom-columns=NAME:.metadata.name,LABELS:.metadata.labels
 ```
 ```
-cat 7.1-globalnetworkpolicy.yaml
-```
-```
+kubectl apply -f -<<EOF
 apiVersion: projectcalico.org/v3
 kind: GlobalNetworkPolicy
 metadata:
   name: platform.bastionfirewall
 spec:
+  egress:
+  - action: Allow
+    destination:
+      ports:
+      - 80
+      - 443
+    protocol: TCP
   ingress:
   - action: Allow
     destination:
@@ -152,6 +157,8 @@ spec:
   tier: platform
   types:
   - Ingress
+  - Egress
+EOF
 ```
 
 Apply the policy
