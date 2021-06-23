@@ -82,7 +82,7 @@ sudo systemctl enable calico
 sudo systemctl start calico
 ```
 
-If you execute `sudo systemctl status calico` in the bastion host, teh service must be now in a running state
+If you execute `sudo systemctl status calico` in the bastion host, the service must be now in a running state
 
 ## 7.2. Emulate a running service
 
