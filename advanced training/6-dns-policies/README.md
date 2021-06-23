@@ -42,19 +42,35 @@ EOF
 ```
 
 
-## 6.3. Implement app1 ds networkpolicies
+## 6.3. Implement app1 dns networkpolicies
 
-The last step is to implement a networkpolicy to app1 namespace allowing access to trusted domains.
-
-```
-cat 5.4-app1-network-policies.yaml
-```
-
-Notice the ingress deny action for app1. This implies that pod1 is allowed egress communication with its own trusted domains, in addition to global trsuted repos that we have previously defined.
+The last step is to implement a networkpolicy for app1 namespace allowing access to trusted domains.
 
 ```
-kubectl apply -f 5.4-app1-network-policies.yaml
+kubectl apply -f -<<EOF
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: application.ingress-egress-to-and-from-app1
+  namespace: app1
+spec:
+  tier: application
+  order: 200
+  selector: app == "app1"
+  types:
+    - Ingress  
+    - Egress
+  ingress:
+    - action: Deny
+  egress:
+    - action: Allow
+      destination:
+        selector: external-ep == 'app1-trusted-domains'
+EOF
 ```
+
+Notice the ingress deny action for app1. This implies that pod1 is allowed egress communication with its own trusted domains in addition to global trsuted repos that we have previously defined.
+
 
 ## 6.4. Test
 
