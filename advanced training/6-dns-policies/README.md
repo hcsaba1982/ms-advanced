@@ -24,16 +24,23 @@ calicoctl get globalnetworkset trusted-repos -o yaml
 ## 6.2. Define networkset for app1 trusted domains
 
 Now we will move to implementing dns policies specific to app1. The first step is to define a networkset including app1 trusted domains.
+#### Note the namespace metadata config defining the scope of the networkset to app1 namespace.
 
 ```
-cat 5.3-networkset.yaml
+kubectl apply -f -<<EOF
+apiVersion: projectcalico.org/v3
+kind: NetworkSet
+metadata:
+  name: app1-trusted-domains
+  namespace: app1
+  labels:
+    external-ep: app1-trusted-domains
+spec:
+  allowedEgressDomains:
+    - 'github.com'
+EOF
 ```
 
-Notice the namespace metadata config, defining the scope of the networkset to app1 namespace.
-
-```
-kubectl apply -f 5.3-networkset.yaml
-```
 
 ## 6.3. Implement app1 ds networkpolicies
 
