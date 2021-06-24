@@ -124,7 +124,7 @@ After doing this, the traffic from our attacker will be denied by a rule in our 
 
 ![quarantine](img/10.3-quarantine.png)
 
-If you select Flow Visualization in the left tool bar, and switch to the "Status" tab highlighted below, you must see this traffic being denied (this is an easy way to understand where there should be traffic hotspots in your network):
+If you select Flow Visualization in the left navigation bar and switch to the "Status" tab highlighted below you should see this traffic being denied (this is an easy way to understand where there should be traffic hotspots in your network).
 
 ![flowvisualizer](img/10.3-flowvisualizer.png)
 
