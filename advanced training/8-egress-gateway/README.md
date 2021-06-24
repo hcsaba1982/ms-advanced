@@ -117,7 +117,31 @@ egress-gateway-n2zh2               1/1     Running   0          40s   10.50.0.0 
 Deploy the needed BGP config, so we route our traffic to the bastion host through the egress gateway:
 
 ```
-kubectl create -f 8.1-bgp-conf.yaml
+kubectl apply -f -<<EOF
+apiVersion: projectcalico.org/v3
+kind: BGPPeer
+metadata:
+  name: bgppeer-global-64512
+spec:
+  peerIP: 10.0.1.10
+  asNumber: 64512
+---
+apiVersion: projectcalico.org/v3
+kind: BGPConfiguration
+metadata:
+  name: default
+spec:
+  serviceClusterIPs:
+  - cidr: 10.49.0.0/16
+  communities:
+  - name: bgp-large-community
+    value: 64512:120
+  prefixAdvertisements:
+  - cidr: 10.50.0.0/31
+    communities:
+    - bgp-large-community
+    - 64512:120
+EOF
 ```
 
 ### 8.3.2. Check Calico Nodes connect to the bastion host
