@@ -2,11 +2,11 @@
 
 ## 8.0. Introduction
 
-The purpose of this lab is to demonstrate the funciationality of Egress Gateway. In this lab we will:
+The purpose of this lab is to demonstrate the funciationality of Egress Gateway. In this lab, we will:
 
-8.1. Enable per namespace Egress Gateway support
-8.2. Deploy an Egress Gateway in *one* namespace
-8.3. Enable BGP with upstream routers (Bird) and advertise the Egress Gateway IP Pool
+8.1. Enable per namespace Egress Gateway support \
+8.2. Deploy an Egress Gateway in *one* namespace \
+8.3. Enable BGP with upstream routers (Bird) and advertise the Egress Gateway IP Pool \
 8.4. Test and Verify the communication
 
 ## 8.1. Enable egress gateway support on a per-namespace basis.
