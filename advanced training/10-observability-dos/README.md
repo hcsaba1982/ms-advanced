@@ -1,17 +1,17 @@
 # 10. DOS
 
 In this lab, you will: 
-- Implement an alert, so you will be informed if any malicious actor is trying to connect to system pods on ports you will not expect \
-- Deploy a rogue pod, and inspect its behavior by means of the available dashboards and graphs \
-- Use the Dynamic Packet Capture feature to gather more details around the malicious activity of the pod \
+- Implement an alert so you will be informed if any malicious actor is trying to connect to system pods on ports you will not expect 
+- Deploy a rogue pod and inspect its behavior by means of the available dashboards and graphs 
+- Use the Dynamic Packet Capture feature to gather more details around the malicious activity of the pod 
 
 ## 10.1. Flow and DNS logs setup preparation
 
 Workloads and policies are highly dynamic. To troubleshoot Kubernetes clusters, you need logs with workload identity and context. Calico Enterprise deploys an Elasticsearch cluster and Kibana instance during installation with these features:
 
 * Logs with workload context
-* Centralized log collection for multiple clusters for Calico Enterprise multi-cluster-management
-* View Elasticsearch logs in Calico Enterprise Manager UI (Kibana dashboard and Flow Visualizer), and the Elasticsearch API
+* Centralized log collection for multiple clusters using Calico Enterprise multi-cluster-management
+* View Elasticsearch logs in Calico Enterprise Manager UI (Kibana dashboard and Flow Visualizer) and the Elasticsearch API
 * Standard Kubernetes RBAC for granular access control to logs
 * Collect/archive logs or subset of logs
 * Log aggregation for high-volume logs
