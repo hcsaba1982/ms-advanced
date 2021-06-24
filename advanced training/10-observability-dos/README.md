@@ -81,10 +81,25 @@ attacker-app-5f8d5574bf-7s76p   1/1     Running   0          26s
 
 ### 10.3.2. Create a Quarantine policy
 
-We will create a quarantine network policy before hand, which will match the traffic on a specific label. Later, when we want to quickly isolate a pod, we just need to apply teh appropriate label to it, so our network will not be impacted. In our approach so far, we have enabled microsegmentation denying all the ingress traffic in our pods and allowing egress. In order to completely isolate pods with this policy, we will put it higher in the hierarchy, so the policiy will be implemented in the platform tier. Pods included there will not able to communicate at all:
+We will create a quarantine network policy before hand, which will match the traffic on a specific label. Later, when we want to quickly isolate a pod, we just need to apply the appropriate label to it, so our network will not be impacted. In our approach so far, we have enabled microsegmentation denying all the ingress traffic in our pods and allowing egress. In order to completely isolate pods with this policy, we will put it higher in the hierarchy so the policy will be implemented in the platform tier. Pods included there will not able to communicate at all.
 
 ```
-kubectl create -f 9.1-quarantine.yaml
+kubectl apply -f -<<EOF
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: security.quarantine
+spec:
+  egress:
+  - action: Deny
+    destination: {}
+    source: {}
+  order: 0
+  selector: sec == "quarantine"
+  tier: security
+  types:
+  - Egress
+EOF
 ```
 
 ### 10.3.3. Verify the pod activity
