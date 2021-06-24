@@ -132,12 +132,10 @@ If you select Flow Visualization in the left navigation bar and switch to the "S
 
 ### 10.4.1. Define the traffic you want to capture
 
-We will use another feature called Dynamic Packet Capture to get a deeper insight of what the pod is doing. For that we will use standard manifests files to select the pod from which we want to capture the traffic. Inspect the yaml file as shown below:
+We will use another feature called Dynamic Packet Capture to get a deeper insight of what the pod is doing. For that, we will use standard manifests files to select the pod from which we want to capture the traffic. 
 
 ```
-cat 9.1-capture.yaml
-```
-```
+kubectl apply -f -<<EOF
 apiVersion: projectcalico.org/v3
 kind: PacketCapture
 metadata:
@@ -145,6 +143,7 @@ metadata:
   namespace: default
 spec:
   selector: app == "attacker-app"
+EOF
 ```
 
 As you can see, this matches any pod labeled as `attacker-app` which for our demonstration purpose, will capture the traffic of the rogue pod:
