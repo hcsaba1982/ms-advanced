@@ -132,10 +132,9 @@ If you select Flow Visualization in the left navigation bar and switch to the "S
 
 ### 10.4.1. Define the traffic you want to capture
 
-We will use another feature called Dynamic Packet Capture to get a deeper insight of what the pod is doing. For that, we will use standard manifests files to select the pod from which we want to capture the traffic. 
+We will use another feature called Dynamic Packet Capture to get a deeper insight of what the pod is doing. For that, we will use standard manifests files to select the pod from which we want to capture the traffic. Inspect the yaml file below. 
 
 ```
-kubectl apply -f -<<EOF
 apiVersion: projectcalico.org/v3
 kind: PacketCapture
 metadata:
@@ -143,7 +142,6 @@ metadata:
   namespace: default
 spec:
   selector: app == "attacker-app"
-EOF
 ```
 
 As you can see, this matches any pod labeled as `attacker-app` which for our demonstration purpose, will capture the traffic of the rogue pod:
@@ -162,7 +160,15 @@ attacker-app-5f8d5574bf-6htwl    1/1     Running   0          6m57s   app=attack
 Now, lets implement this capture:
 
 ```
-kubectl create -f 9.1-capture.yaml
+kubectl apply -f -<<EOF
+apiVersion: projectcalico.org/v3
+kind: PacketCapture
+metadata:
+  name: attacker-pcap
+  namespace: default
+spec:
+  selector: app == "attacker-app"
+EOF
 ```
 
 Check the capture has been initiated:
@@ -175,21 +181,29 @@ NAME            SELECTOR
 attacker-pcap   app == "attacker-app"   
 ```
 
-This capture will gather traffic from all pods in our cluster labeled as `attacker=app`, which in this case will be a single pod, however, should multiple endpoints match the capture, no matter where they are running in our cluster, their traffic will be captured if they match. Wait for around 1 minute, and then stop the capture deleting it.
+This capture will gather traffic from all pods in our cluster labeled as `attacker=app`, which in this case will be a single pod. However, should multiple endpoints match the capture, no matter where they are running in our cluster, their traffic will be captured if they match. Wait for around 1 minute, and then stop the capture deleting it.
 
 ```
-kubectl delete -f 9.1-capture.yaml
+kubectl delete -f -<<EOF
+apiVersion: projectcalico.org/v3
+kind: PacketCapture
+metadata:
+  name: attacker-pcap
+  namespace: default
+spec:
+  selector: app == "attacker-app"
+EOF
 ```
 
 ### 10.4.3. Get the capture files, and analyze them
 
-The files will be stored in calico-node, and exported by fluentd. We can retrieve teh files with the command:
+The files will be stored in calico-node and exported by fluentd. We can retrieve the files with the following command.
 
 ```
 calicoctl captured-packets copy attacker-pcap -d "/tmp"
 ```
 
-Check the capture file with tcpdump to see what the attacker pod was performing:
+Check the capture file with tcpdump to see what the attacker pod was performing.
 
 ```
 sudo tcpdump -nr /tmp/attacker*.pcap | tail -40
@@ -199,7 +213,7 @@ As you can see the pod was performing SYN flood towards different random ports
 
 ## 10.5 Clean up the environment
 
-Now delete the rogue pod from the environment:
+Now delete the rogue pod from the environment.
 
 ```
 kubectl delete -f https://installer.calicocloud.io/rogue-demo.yaml
