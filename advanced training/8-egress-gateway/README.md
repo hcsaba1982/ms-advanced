@@ -23,7 +23,16 @@ kubectl patch felixconfiguration.p default --type='merge' -p \
 Create an IP Pool for Egress Gateway Pod
 
 ```
-kubectl create -f 8.1-egress-pool.yaml
+kubectl apply -f -<<EOF
+apiVersion: projectcalico.org/v3
+kind: IPPool
+metadata:
+  name: egress-ippool-1
+spec:
+  cidr: 10.50.0.0/31
+  blockSize: 31
+  nodeSelector: "!all()"
+EOF
 ```
 
 ## 8.1.2. Apply Calico Enterprise pull secret to egress gateway namespace:
