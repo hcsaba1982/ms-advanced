@@ -62,7 +62,7 @@ EOF
 
 ### 10.3.1. Install a Rogue Pod
 
-Install a Rogue pod which will initiate a DoS attack, so we can leverage several observability tools in the platform to visualize its impact:
+Install a rogue pod, which will initiate a DoS attack so we can leverage several observability tools in the platform to visualize its impact.
 
 ```
 kubectl apply -f https://installer.calicocloud.io/rogue-demo.yaml
@@ -72,6 +72,11 @@ Verify the pod is running:
 
 ```
 kubectl get pod
+```
+```
+tigera@bastion:~$ kubectl get pod
+NAME                            READY   STATUS    RESTARTS   AGE
+attacker-app-5f8d5574bf-7s76p   1/1     Running   0          26s
 ```
 
 ### 10.3.2. Create a Quarantine policy
