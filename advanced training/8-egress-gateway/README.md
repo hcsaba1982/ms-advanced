@@ -49,13 +49,45 @@ kubectl create secret generic egress-pull-secret \
 
 ### 8.2.1.EGW
 
-Deploy the Egress gateway with the desire label to be used as an identifier later by Namespace and App Workload for using this Egress Gateway.
-In this example the label we are using is `egress-code: red`. This will be referenced in future annotations to stitc the communication end to end.
-Please also note the IP Pool assigned to this Egress Gateway. In the cni.projectcalico.org/ipv4pools annotation, the IP Pool can be specified either by its name (e.g. egress-ippool-1) or by its CIDR (e.g. 10.58.0.0/31).
+Deploy the Egress gateway with the desired label to be used as an selector by namespace and app workloads using this Egress Gateway. In this example, the label we are using is `egress-code: red`. Please also note the IP Pool assigned to this Egress Gateway. In the cni.projectcalico.org/ipv4pools annotation, the IP Pool can be specified either by its name (e.g. egress-ippool-1) or by its CIDR (e.g. 10.58.0.0/31).
 
 
 ```
-kubectl create -f 8.1-egress-gw.yaml
+kubectl apply -f -<<EOF
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: egress-gateway
+  namespace: app1
+  labels:
+    egress-code: red
+spec:
+  selector:
+    matchLabels:
+      egress-code: red
+  template:
+    metadata:
+      annotations:
+        cni.projectcalico.org/ipv4pools: "[\"10.50.0.0/31\"]"
+      labels:
+        egress-code: red
+    spec:
+      imagePullSecrets:
+      - name: egress-pull-secret
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - name: egress-gateway
+        image: quay.io/tigera/egress-gateway:v3.7.0
+        env:
+        - name: EGRESS_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        securityContext:
+          privileged: true
+      terminationGracePeriodSeconds: 0
+EOF
 ```
 
 ## 8.2.2. Connect the namespace to the gateways it should use
