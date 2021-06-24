@@ -9,7 +9,7 @@ The purpose of this lab is to demonstrate the funciationality of Egress Gateway.
 8.3. Enable BGP with upstream routers (Bird) and advertise the Egress Gateway IP Pool \
 8.4. Test and Verify the communication
 
-## 8.1. Enable egress gateway support on a per-namespace basis.
+## 8.1. Enable egress gateway support on a per-namespace basis
 
 Patch felix configuration to support per namespace egress gateway support
 
