@@ -241,7 +241,8 @@ ip rule
 32767:  from all lookup default
 ```
 
-Confirm that the policy is choosing the egress gateway as the next hold for any source traffic from App workload POD IP
+Confirm that the policy is choosing the egress gateway as the next hop for any source traffic from App workload POD IP. 
+#### Note: ensure to use the correct table number with the following command. In this case, the table number is 250.
 
 ```
 ip route show table 250
@@ -253,7 +254,7 @@ default onlink
         nexthop via 10.50.0.1 dev egress.calico weight 1 onlink
 ```
 
-You can close the second browser tab with the terminal now, as we will not use it for the rest of the labs.
+You can close the second browser tab with the terminal now as we will not use it for the rest of the labs.
 
 ## Conclusion
 
