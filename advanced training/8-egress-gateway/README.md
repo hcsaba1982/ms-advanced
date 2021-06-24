@@ -101,6 +101,14 @@ kubectl annotate ns app1 egress.projectcalico.org/selector='egress-code == "red"
 ```
 kubectl get pods -n app1 -o wide 
 ```
+```
+tigera@bastion:~$ kubectl get pods -n app1 -o wide 
+NAME                               READY   STATUS    RESTARTS   AGE   IP            NODE                                         NOMINATED NODE   READINESS GATES
+app1-deployment-5bbfd76f9d-2zrdt   1/1     Running   0          7d    10.48.0.80    ip-10-0-1-30.ca-central-1.compute.internal   <none>           <none>
+app1-deployment-5bbfd76f9d-pxlx8   1/1     Running   0          7d    10.48.0.203   ip-10-0-1-31.ca-central-1.compute.internal   <none>           <none>
+egress-gateway-jc4wm               1/1     Running   0          40s   10.50.0.1     ip-10-0-1-30.ca-central-1.compute.internal   <none>           <none>
+egress-gateway-n2zh2               1/1     Running   0          40s   10.50.0.0     ip-10-0-1-31.ca-central-1.compute.internal   <none>           <none>
+```
 
 ## 8.3. BGP
 
