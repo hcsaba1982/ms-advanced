@@ -1,6 +1,6 @@
 # 10. DOS
 
-In this lab, you will: \
+In this lab, you will: 
 - Implement an alert, so you will be informed if any malicious actor is trying to connect to system pods on ports you will not expect \
 - Deploy a rogue pod, and inspect its behavior by means of the available dashboards and graphs \
 - Use the Dynamic Packet Capture feature to gather more details around the malicious activity of the pod \
