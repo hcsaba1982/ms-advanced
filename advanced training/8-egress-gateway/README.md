@@ -183,7 +183,7 @@ default via 10.0.1.1 dev ens5 proto dhcp src 10.0.1.10 metric 100
 
 ### 8.4.1. Test and verify Egress Gateway in action
 
-Open a second browser to your lab (`<LABNAME>.lynx.tigera.ca`) if not already done, so we have an additional terminal to test the egress gateway.
+Open a second browser to your lab (`<LABNAME>.lynx.tigera.ca`) if not already done so that we have an additional terminal to test the egress gateway.
 
 On that terminal, start netcat in the bastion host to listen to an specific port:
 
