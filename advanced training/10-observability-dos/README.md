@@ -30,7 +30,32 @@ kubectl patch felixconfiguration.p default -p '{"spec":{"dnsLogsFlushInterval":"
 Create an alert which will warn you when pods try to reach your kube-system dns servers in other port different than UDP/TCP 53:
 
 ```
-kubectl create -f 9.1-alert.yaml
+kubectl apply -f -<<EOF
+apiVersion: projectcalico.org/v3
+kind: GlobalAlert
+metadata:
+  name: port.scan
+spec:
+  aggregateBy:
+  - source_namespace
+  - dest_name_aggr
+  - source_name_aggr
+  - dest_namespace
+  - num_flows
+  condition: gte
+  dataSet: flows
+  description: Port scan detected!!!
+  field: num_flows
+  lookback: 1m0s
+  metric: sum
+  period: 1m0s
+  query: ("dest_port" != 53 AND ("dest_namespace" = "kube-system" AND "dest_labels.labels"
+    = "k8s-app=kube-dns"))
+  severity: 50
+  summary: Port Scan detected from \${source_namespace}/\${source_name_aggr} to \${dest_namespace}/\${dest_name_aggr}
+    flows detected \${num_flows}
+  threshold: 1
+EOF
 ```
 
 ## 10.3. Rogue Pod:
