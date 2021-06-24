@@ -108,7 +108,7 @@ Go to the Dashboard. You should start seeing some abnormal increase in the traff
 
 ![dashboard](img/10.1-dashboard.png)
 
-Switch to the Service graph view. After a couple of minutes of starting the rogue pod, you should be able to see it is opening connections towards your kube-system dns pods and an alert icon signaling those will appear in the pod namespace. The corresponding alerts can also be checked on both, the Alerts tab in the Service Graph page or the "Alerts" section from Calico Enterprise Manager UI navigation pane.
+Switch to the Service graph view. After a couple of minutes of starting the rogue pod, you should be able to see it is opening connections towards your kube-system dns pods and an alert icon signaling those will appear in the pod namespace. The corresponding alerts can also be checked on both, the Alerts tab in the Service Graph page or the Alerts section from Calico Enterprise Manager UI navigation pane.
 
 ![servicegraph](img/10.2-servicegraph.png)
 
@@ -120,7 +120,7 @@ Label the attacker pod so it will be included in the quarantine security policy 
 kubectl label $(kubectl get pod -o name --no-headers | grep attacker) sec=quarantine
 ```
 
-After doing this, the traffic from our attacker will be denied by a rule in our security tier called "quarantine". You must see outbound packet being denied as below:
+After doing this, the traffic from our attacker will be denied by a rule in our security tier called "quarantine". You should see outbound packet being denied as shown below.
 
 ![quarantine](img/10.3-quarantine.png)
 
