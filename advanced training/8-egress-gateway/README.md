@@ -169,6 +169,7 @@ If you check the routes, you will see the edge gateway is reachable through the 
 ip route
 ```
 ```
+tigera@bastion:/var/run/bird$ ip route
 default via 10.0.1.1 dev ens5 proto dhcp src 10.0.1.10 metric 100 
 10.0.1.0/24 dev ens5 proto kernel scope link src 10.0.1.10 
 10.0.1.1 dev ens5 proto dhcp scope link src 10.0.1.10 metric 100 
@@ -176,7 +177,8 @@ default via 10.0.1.1 dev ens5 proto dhcp src 10.0.1.10 metric 100
         nexthop via 10.0.1.20 dev ens5 weight 1 
         nexthop via 10.0.1.30 dev ens5 weight 1 
         nexthop via 10.0.1.31 dev ens5 weight 1 
-10.58.0.0/31 via 10.0.1.31 dev ens5 proto bird 
+10.50.0.0/31 via 10.0.1.31 dev ens5 proto bird 
+10.50.0.1 via 10.0.1.30 dev ens5 proto bird 
 ```
 
 ## 8.4. Verification
@@ -191,7 +193,7 @@ On that terminal, start netcat in the bastion host to listen to an specific port
 netcat -nvlkp 7777
 ```
 
-On the original terminal window, enter to any of the pods in the app1 namespace:
+On the original terminal window, exec into any of the pods in the app1 namespace.
 
 ```
 APP1_POD=$(kubectl get pod -n app1 --no-headers -o name | head -1) && echo $APP1_POD
@@ -200,15 +202,15 @@ APP1_POD=$(kubectl get pod -n app1 --no-headers -o name | head -1) && echo $APP1
 kubectl exec -ti $APP1_POD -n app1 -- sh
 ```
 
-And try to connect to the port in the bastion host:
+And try to connect to the port in the bastion host.
 
 ```
 nc -zv 10.0.1.10 7777
 ```
 
-Press `ctrl+c` to exit it.
+Type `exit` to exit out the pod terminal.
 
-Now on the first terminal on the bastion node, you should see some text saying you connect from the IP of one of the egress gateways, as indicated below.
+Go to the terminal that you ran the following netcat server on the bastion node. You should see an output saying you connected from the IP of one of the egress gateway pods to the netcat server.
 
 ```
 $ netcat -nvlkp 7777
