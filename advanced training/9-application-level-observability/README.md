@@ -11,7 +11,7 @@ Steps: \
 
 ## 9.1 Create tigera pull secret in app namespace
 
-Application layer data extends the default Calico flow logs adding layer 7 contxtual information about the request. Calico enterprise profides extensive logging adn observability featureset that Calico Enterprise uses in many functions, including threat defense, anomaly detection, machine learning, compliance reporting, service graph, policy recommendations and many other functions. Logs can be also forwarded to your external SIEM for long term retention and compliance.
+Application layer data extends the default Calico flow logs adding layer 7 contextual information about the request. Calico enterprise provides extensive logging and observability featureset that Calico Enterprise uses in many functions, including threat defense, anomaly detection, machine learning, compliance reporting, service graph, policy recommendations, and many other functions. Logs can be also forwarded to your external SIEM for long term retention and compliance.
 
 ```
 kubectl create secret generic tigera-pull-secret -n yaobank --from-file=.dockerconfigjson=/home/tigera/config.json --type kubernetes.io/dockerconfigjson
