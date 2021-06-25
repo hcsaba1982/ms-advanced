@@ -1,0 +1,20 @@
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: whitelist.allow-docker-com
+spec:
+  tier: whitelist
+  order: 1200
+  selector: app == "open-centos"
+  egress:
+    - action: Allow
+      protocol: TCP
+      source: {}
+      destination:
+        ports:
+          - '80'
+          - '443'
+        domains:
+          - www.docker.com
+  types:
+    - Egress

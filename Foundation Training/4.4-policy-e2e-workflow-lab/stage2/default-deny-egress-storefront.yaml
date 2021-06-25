@@ -1,0 +1,15 @@
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: default.default-deny-egress-storefront
+  namespace: storefront
+spec:
+  tier: default
+  order: 1350
+  selector: all()
+  egress:
+    - action: Deny
+      source: {}
+      destination: {}
+  types:
+    - Egress

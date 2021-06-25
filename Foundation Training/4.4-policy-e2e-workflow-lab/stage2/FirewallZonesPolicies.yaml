@@ -1,0 +1,121 @@
+  apiVersion: projectcalico.org/v3
+  kind: NetworkPolicy
+  metadata:
+    labels:
+      projectcalico.org/tier: default
+    name: default.restricted
+    namespace: storefront
+  spec:
+    egress:
+    - action: Allow
+    ingress:
+    - action: Allow
+      source:
+        selector: fw-zone == 'trusted'
+    - action: Allow
+      source:
+        selector: fw-zone == 'restricted'
+    order: 1000
+    selector: fw-zone == "restricted"
+    tier: default
+    types:
+    - Ingress
+    - Egress
+---
+  apiVersion: projectcalico.org/v3
+  kind: NetworkPolicy
+  metadata:
+    labels:
+      projectcalico.org/tier: default
+    name: default.dmz
+    namespace: storefront
+  spec:
+    egress:
+    - action: Allow
+    ingress:
+    - action: Allow
+    order: 1000
+    selector: fw-zone == "dmz"
+    tier: default
+    types:
+    - Ingress
+    - Egress
+---
+  apiVersion: projectcalico.org/v3
+  kind: NetworkPolicy
+  metadata:
+    labels:
+      projectcalico.org/tier: default
+    name: default.trusted
+    namespace: storefront
+  spec:
+    egress:
+    - action: Allow
+    ingress:
+    - action: Allow
+      source:
+        selector: fw-zone == 'dmz'
+    - action: Allow
+      source:
+        selector: fw-zone == 'trusted'
+    order: 1000
+    selector: fw-zone == 'trusted'
+    tier: default
+    types:
+    - Ingress
+    - Egress
+---
+
+# For the yaobank policies use the same names as the ALP policies so when
+# those policies are loaded these will be 'overwritted'.
+
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: customer
+  namespace: yaobank
+spec:
+  selector: fw-zone == 'dmz'
+  ingress:
+    - action: Allow
+  egress:
+    - action: Allow
+
+---
+
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: summary
+  namespace: yaobank
+spec:
+  selector: fw-zone == 'trusted'
+  ingress:
+    - action: Allow
+      source:
+        selector: fw-zone == 'dmz'
+    - action: Allow
+      source:
+        selector: fw-zone == 'trusted'
+  egress:
+    - action: Allow
+
+---
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: database
+  namespace: yaobank
+spec:
+  selector: fw-zone == 'restricted'
+  ingress:
+    - action: Allow
+      source:
+        selector: fw-zone == 'trusted'
+    - action: Allow
+      source:
+        selector: fw-zone == 'restricted'
+  egress:
+    - action: Allow
+
+---

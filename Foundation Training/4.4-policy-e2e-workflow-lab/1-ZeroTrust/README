@@ -1,0 +1,7 @@
+NetworkStatus.sh -> All access should be OPEN!! Shows network is insecure.
+SecureFirewallZones.sh -> Create Firewall zone.. so now access is controlled by zones.
+NetworkStatus.sh -> Now Attack pod can only reach pods in same zone and namespace, and in DMZ. So you’ve access control!!
+NewServiceStorefront.sh -> Added new service “bankinfo”.. it can only connect to DMZ!! Need access to customer DB in Yaobank.
+SecureBankInfoService.sh -> Allow access (platform tier is important!! We’re making sure that dev team cannot change it)
+NewServiceStorefront.sh -> Can access DB!!!
+

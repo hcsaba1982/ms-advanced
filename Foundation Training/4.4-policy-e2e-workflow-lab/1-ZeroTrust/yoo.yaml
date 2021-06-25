@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    cni.projectcalico.org/podIP: 10.48.0.193/32
+  creationTimestamp: "2020-02-21T09:08:19Z"
+  generateName: summary-6c755fccd5-
+  labels:
+    app: attack
+    pod-template-hash: 6c755fccd5
+    version: v1
+  name: summary-6c755fccd5-dwh8v
+  namespace: yaobank
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: summary-6c755fccd5
+    uid: 8e9d1437-d442-46c7-bb1f-14e96af9529d
+  resourceVersion: "19573"
+  selfLink: /api/v1/namespaces/yaobank/pods/summary-6c755fccd5-dwh8v
+  uid: 03903a12-660d-4aab-9d60-69df3ea12151
+spec:
+  containers:
+  - image: spikecurtis/yaobank-summary:latest
+    imagePullPolicy: Always
+    name: summary
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: summary-token-r4qx6
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: ip-10-0-0-11
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: summary
+  serviceAccountName: summary
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: summary-token-r4qx6
+    secret:
+      defaultMode: 420
+      secretName: summary-token-r4qx6
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2020-02-21T09:08:19Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2020-02-21T09:08:22Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2020-02-21T09:08:22Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2020-02-21T09:08:19Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: docker://fd20c9733a78f0f42d3528e2b1d090a5c567fdffd999d201723a59c226cea1b8
+    image: spikecurtis/yaobank-summary:latest
+    imageID: docker-pullable://spikecurtis/yaobank-summary@sha256:6fb69b642ff9c98c875111415431bb98e6ac6f1ee805c6f6e0ac0a5ce55177b1
+    lastState: {}
+    name: summary
+    ready: true
+    restartCount: 0
+    state:
+      running:
+        startedAt: "2020-02-21T09:08:21Z"
+  hostIP: 10.0.0.11
+  phase: Running
+  podIP: 10.48.0.193
+  qosClass: BestEffort
+  startTime: "2020-02-21T09:08:19Z"
