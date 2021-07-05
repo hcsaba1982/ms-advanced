@@ -67,7 +67,7 @@ EOF
 After applying the manifest, you will notice 4 new globalnetworksets:
 - `loopback` to account for the communication with loopback interface once we enable host endpoint protection (typical behavior of some linux kernel and a common trap to avoid)
 - `bastion` to account for communication with bastion host, namely ssh and kube api tcp 6443 port
-- `*.lynx.tigera.ca` to account for kube-api fqdn, wildcard used for simplicity
+- `kube-api (*.lynx.tigera.ca)` to account for kube-api fqdn, wildcard used for simplicity
 - `trusted-repos` to be able to pull the images for our pods
 
 ## 3.2. Implement global egress policies for the cluster
