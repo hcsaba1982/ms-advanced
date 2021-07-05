@@ -11,7 +11,7 @@ Steps: \
 
 ## 3.1. Define globalnetworkset for external endpoints
 
-In this lab, we will start by defining Calico globalnetworkset for external endpoint. This allows for matching sources and destinations foreigh to the cluster in network policies in a cloud-native way. 
+In this lab, we will start by defining Calico globalnetworkset for external endpoint. This allows for matching sources and destinations foreign to the cluster in network policies in a cloud-native way. 
 
 ```
 kubectl apply -f -<<EOF
